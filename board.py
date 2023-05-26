@@ -11,39 +11,43 @@ class Board:
             print("| " + row[:-2] + "|")
             print("+---+---+---+---+---+---+---+")
 
+        print("  1   2   3   4   5   6   7 ")
+
     """
-	placeToken takes in a token variable and the column where the player wants to place their token
+    valid_position(pos) takes in a position argument that the user inputs
+    a position is valid if the column is not full and the position does not exceed 6 or is not less than 1
+    returns true if position is valid 
+    """
+    def valid_position(self, pos):
+        return 7 > pos >= 0 and not self.is_col_full(pos)
+
+    """
+	place_token takes in a token variable and the column where the player wants to place their token
 	it pushes a token into the next available column given that the column is not empty
 	returns true if token placement is successful, else it returns false
 	"""
-
-    def place_token(self, p, col):
-
-        if not self.is_col_full(col):
-            self.board[col].append(p)  # pushes the token into the desired column
-            return True
-
-        else:
-            return False
-
-    # is_col_full checks if the column is full, if full it returns true
-    def is_col_full(self, col):
-        return self.board[col][6] != " "
+    def place_token(self, token, col):
+        self.board[col].append(token)  # pushes the token into the desired column
 
     """
-	full checks if all positions in the board have been filled
+    is_col_full takes in a col argument that the user inputs
+    :returns true if the column still has space, false if it is full 
+    """
+    def is_col_full(self, col):
+        return self.board[col][5] != " "
+
+    """
+	is_board_full checks if all positions in the board have been filled
 	if full it returns true
 	"""
-
-    def full(self):
-        is_full = False
+    def is_board_full(self):
+        is_full = True
 
         for i in range(7):
             for j in range(6):
                 if self.board[i][j] == " ":
-                    is_full = True
+                    is_full = False
                     break
-
             else:  # only executes if the inner "j" loop is not broken (breaks out of the outerloop)
                 continue
             break
