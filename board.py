@@ -1,25 +1,40 @@
 class Board:
     board = [[" " for col in range(6)] for row in range(7)]
 
-
+    """
+    print_board() prints the board in the proper format
+    since the lists within the board are actually columns in the game,
+    the printing of rows and columns are reversed
+    """
     def print_board(self):
         print("+---+---+---+---+---+---+---+")
         for i in range(5, -1, -1):
             row = ""
+
             for j in range(7):
-                row += self.board[j][i] + " | "
+                row += self.board[j][i] + " | "  # prints the column then row
             print("| " + row[:-2] + "|")
             print("+---+---+---+---+---+---+---+")
 
         print("  1   2   3   4   5   6   7 ")
 
+
     """
-    valid_position(pos) takes in a position argument that the user inputs
-    a position is valid if the column is not full and the position does not exceed 6 or is not less than 1
-    returns true if position is valid 
+    valid_column(col) takes in a column argument that the user inputs.
+    a column is valid if the column is not full, the column does not exceed 6 or is not less than 1
+    and if the column is an integer.
+    :returns true if position is valid 
     """
-    def valid_position(self, pos):
-        return 7 > pos >= 0 and not self.is_col_full(pos)
+    def valid_column(self, col):
+        valid_col = False
+        columns = ["1", "2", "3", "4", "5", "6", "7"]
+
+        if col in columns:
+            col = int(col)
+            valid_col = 7 > col >= 0 and not self.is_col_full(col)
+
+        return valid_col
+
 
     """
 	place_token takes in a token variable and the column where the player wants to place their token
@@ -27,7 +42,10 @@ class Board:
 	returns true if token placement is successful, else it returns false
 	"""
     def place_token(self, token, col):
-        self.board[col].append(token)  # pushes the token into the desired column
+        for i in range(len(self.board[col])):
+            if self.board[col][i] == " ":
+                self.board[col][i] = token
+                break
 
     """
     is_col_full takes in a col argument that the user inputs

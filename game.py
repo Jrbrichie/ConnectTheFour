@@ -38,6 +38,7 @@ class Game:
 
     def game_loop(self, p1_first):
 
+        # continues running as long as the board is not full
         while not self.b.is_board_full():
             self.b.print_board()
 
@@ -54,14 +55,18 @@ class Game:
             else:
                 print("Player 2's turn!")
 
-            position = -2
+            # asks the user to input a position on the board between 1-7 inclusive
+            column = input(p_text + ", enter a position to put your token in (1-7): ")
 
             # continues running until the player inputs a valid int position on the board
-            while not self.b.valid_position(position):
-                position = (int(input(p_text + ", enter a position to put your token in: ")) - 1)
+            while not self.b.valid_column(column):
+                new_column = input(str(column) + " is not a valid column! "
+                                                 "Please enter a valid column (1-7): ")
+                column = new_column
 
-            # TODO fix and implement token placing mechanism
-            self.b.place_token(p_token, position)
+            column = int(column) - 1  # parsing the string into the int format
+
+            self.b.place_token(p_token, column)  # places the current player's token in their desired column
 
             # TODO create and implement win conditions
             # self.b.player_win(p_token)
